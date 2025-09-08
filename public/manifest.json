@@ -1,0 +1,14 @@
+{
+  "name": "HealthSync AI",
+  "description": "HealthSync AI is a Base Mini App built with Zara.",
+  "image": "https://dummyimage.com/1200x628/0a0b0d/ffffff.png&text=OG",
+  "external_url": "https://21b75843-ad3e-40e2-9756-e9a5b16d8daa.vercel.app",
+  "properties": {
+    "app": {
+      "name": "HealthSync AI",
+      "description": "HealthSync AI is a Base Mini App built with Zara.",
+      "url": "https://21b75843-ad3e-40e2-9756-e9a5b16d8daa.vercel.app",
+      "icon": "https://0co.to/images/zara-2.png"
+    }
+  }
+}
