@@ -8,6 +8,8 @@ import { Dashboard } from '@/components/features/Dashboard';
 import { SymptomLogger } from '@/components/features/SymptomLogger';
 import { ContentCard } from '@/components/features/ContentCard';
 import { HealthTrendAlert } from '@/components/features/HealthTrendAlert';
+import { X402Payment } from '@/components/features/X402Payment';
+import { X402TestComponent } from '@/components/features/X402TestComponent';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -15,6 +17,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { HEALTH_CONDITIONS, SUBSCRIPTION_FEATURES } from '@/lib/constants';
 import { generateId } from '@/lib/utils';
+import { verifyPayment } from '@/lib/x402-payment';
 import type { SymptomLog, Content, HealthTrendAlert as HealthTrendAlertType, User } from '@/lib/types';
 
 export default function HealthSyncApp() {
@@ -24,6 +27,7 @@ export default function HealthSyncApp() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [isX402PaymentOpen, setIsX402PaymentOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [symptomLogs, setSymptomLogs] = useState<SymptomLog[]>([]);
   const [content, setContent] = useState<Content[]>([]);
@@ -33,6 +37,31 @@ export default function HealthSyncApp() {
   useEffect(() => {
     setFrameReady();
   }, [setFrameReady]);
+
+  // Handle successful x402 payment
+  const handlePaymentSuccess = async (transactionHash: string) => {
+    try {
+      // Verify the payment on-chain
+      const isVerified = await verifyPayment(transactionHash);
+      
+      if (isVerified && user) {
+        // Update user subscription status
+        const updatedUser = {
+          ...user,
+          subscriptionStatus: 'premium' as const,
+        };
+        setUser(updatedUser);
+        
+        // Close payment modal
+        setIsX402PaymentOpen(false);
+        
+        // Show success message or redirect
+        console.log('Payment verified and subscription upgraded!');
+      }
+    } catch (error) {
+      console.error('Payment verification failed:', error);
+    }
+  };
 
   // Mock user data and check onboarding
   useEffect(() => {
@@ -186,7 +215,10 @@ export default function HealthSyncApp() {
                 <p className="text-textSecondary">Curated health information for your conditions</p>
               </div>
               {user?.subscriptionStatus === 'free' && (
-                <Button variant="primary">
+                <Button 
+                  variant="primary"
+                  onClick={() => setIsX402PaymentOpen(true)}
+                >
                   Upgrade to Premium
                 </Button>
               )}
@@ -320,7 +352,10 @@ export default function HealthSyncApp() {
                         </p>
                       </div>
                       {user.subscriptionStatus === 'free' && (
-                        <Button variant="primary">
+                        <Button 
+                          variant="primary"
+                          onClick={() => setIsX402PaymentOpen(true)}
+                        >
                           Upgrade to Premium
                         </Button>
                       )}
@@ -348,6 +383,17 @@ export default function HealthSyncApp() {
                 </Card>
               </div>
             )}
+          </div>
+        );
+      
+      case 'test':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-2xl font-bold text-textPrimary">X402 Payment Testing</h1>
+              <p className="text-textSecondary">Test the x402 payment integration with USDC on Base</p>
+            </div>
+            <X402TestComponent />
           </div>
         );
       
@@ -451,6 +497,13 @@ export default function HealthSyncApp() {
         onClose={() => setIsOnboardingOpen(false)}
         onComplete={handleUpdateConditions}
         selectedConditions={user?.selectedConditions || []}
+      />
+
+      {/* X402 Payment Modal */}
+      <X402Payment
+        isOpen={isX402PaymentOpen}
+        onClose={() => setIsX402PaymentOpen(false)}
+        onPaymentSuccess={handlePaymentSuccess}
       />
     </div>
   );

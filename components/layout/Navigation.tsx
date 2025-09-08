@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, FileText, TrendingUp, User } from 'lucide-react';
+import { Home, FileText, TrendingUp, User, TestTube } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavigationProps {
@@ -13,6 +13,7 @@ const tabs = [
   { id: 'content', label: 'Content', icon: FileText },
   { id: 'trends', label: 'Trends', icon: TrendingUp },
   { id: 'profile', label: 'Profile', icon: User },
+  { id: 'test', label: 'X402 Test', icon: TestTube },
 ];
 
 export function Navigation({ activeTab, onTabChange }: NavigationProps) {
