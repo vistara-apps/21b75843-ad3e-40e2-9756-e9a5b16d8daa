@@ -364,10 +364,10 @@ export default function HealthSyncApp() {
         onOpenSettings={() => setIsSettingsOpen(true)}
       />
       
-      <div className="flex flex-col sm:flex-row">
+      <div className="flex">
         <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
         
-        <main className="flex-1 p-4 sm:p-6">
+        <main className="flex-1 p-4 sm:p-6 pb-20 sm:pb-6">
           <div className="max-w-6xl mx-auto">
             {renderContent()}
           </div>
