@@ -129,14 +129,18 @@ export function SymptomLogger({ isOpen, onClose, onSave }: SymptomLoggerProps) {
             {symptoms.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {symptoms.map((symptom) => (
-                  <Badge
+                  <button
                     key={symptom}
-                    variant="primary"
-                    className="cursor-pointer"
                     onClick={() => removeSymptom(symptom)}
+                    className="inline-block"
                   >
-                    {symptom} ×
-                  </Badge>
+                    <Badge
+                      variant="primary"
+                      className="cursor-pointer hover:bg-primary/20 transition-colors"
+                    >
+                      {symptom} ×
+                    </Badge>
+                  </button>
                 ))}
               </div>
             )}
@@ -198,14 +202,18 @@ export function SymptomLogger({ isOpen, onClose, onSave }: SymptomLoggerProps) {
             {triggers.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {triggers.map((trigger) => (
-                  <Badge
+                  <button
                     key={trigger}
-                    variant="success"
-                    className="cursor-pointer"
                     onClick={() => removeTrigger(trigger)}
+                    className="inline-block"
                   >
-                    {trigger} ×
-                  </Badge>
+                    <Badge
+                      variant="success"
+                      className="cursor-pointer hover:bg-green-200 transition-colors"
+                    >
+                      {trigger} ×
+                    </Badge>
+                  </button>
                 ))}
               </div>
             )}
