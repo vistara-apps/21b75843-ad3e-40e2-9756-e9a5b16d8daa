@@ -8,6 +8,7 @@ interface BadgeProps {
   variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
   size?: 'sm' | 'md';
   className?: string;
+  onClick?: () => void;
 }
 
 export function Badge({
@@ -15,6 +16,7 @@ export function Badge({
   variant = 'default',
   size = 'sm',
   className = '',
+  onClick,
 }: BadgeProps) {
   const baseStyles = 'inline-flex items-center font-medium rounded-full';
   
@@ -38,8 +40,10 @@ export function Badge({
         baseStyles,
         variants[variant],
         sizes[size],
+        onClick && 'cursor-pointer hover:opacity-80',
         className
       )}
+      onClick={onClick}
     >
       {children}
     </span>

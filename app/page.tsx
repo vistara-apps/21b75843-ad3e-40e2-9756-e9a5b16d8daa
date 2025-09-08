@@ -226,7 +226,7 @@ export default function HealthSyncApp() {
             {alerts.length === 0 ? (
               <Card className="text-center py-8">
                 <p className="text-textSecondary">
-                  No health trend alerts yet. We'll notify you when we find relevant updates!
+                  No health trend alerts yet. We&apos;ll notify you when we find relevant updates!
                 </p>
               </Card>
             ) : (
@@ -491,7 +491,7 @@ function OnboardingModal({
     >
       <div className="space-y-6">
         <p className="text-textSecondary">
-          Choose the health conditions you'd like to track and receive personalized content for.
+          Choose the health conditions you&apos;d like to track and receive personalized content for.
           You can always update these later.
         </p>
 
